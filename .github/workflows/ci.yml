@@ -20,6 +20,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls -la --time-style=full-iso .
       - run: |
           DOCKER_BUILDKIT=1 docker build \
             --progress plain \
@@ -45,6 +46,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - run: ls -la --time-style=full-iso .
       - run: |
           DOCKER_BUILDKIT=1 docker build \
             --progress plain \
