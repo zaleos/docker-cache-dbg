@@ -7,11 +7,11 @@ permissions:
   packages: write
 
 env:
-  TAG_VER: 1
+  TAG_VER: 2
 
 jobs:
   build-attempt-1:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest-8
     steps:
       - uses: actions/checkout@v3
       - run: docker version
