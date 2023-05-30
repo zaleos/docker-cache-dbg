@@ -14,14 +14,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: docker version
-      - name: 'Login to GitHub Container Registry'
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           DOCKER_BUILDKIT=1 docker build \
             --progress plain \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --build-arg USER_ID=$(id -u) \
             --build-arg GROUP_ID=$(id -g) \
+            --label org.opencontainers.image.source=https://github.com/zaleos/docker-cache-dbg \
             -t ghcr.io/zaleos/docker-cache-dbg:1 \
             --cache-from ghcr.io/zaleos/docker-cache-dbg:1 \
             .
@@ -34,14 +39,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: docker version
-      - name: 'Login to GitHub Container Registry'
-        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           DOCKER_BUILDKIT=1 docker build \
             --progress plain \
             --build-arg BUILDKIT_INLINE_CACHE=1 \
             --build-arg USER_ID=$(id -u) \
             --build-arg GROUP_ID=$(id -g) \
+            --label org.opencontainers.image.source=https://github.com/zaleos/docker-cache-dbg \
             -t ghcr.io/zaleos/docker-cache-dbg:1 \
             --cache-from ghcr.io/zaleos/docker-cache-dbg:1 \
             .
