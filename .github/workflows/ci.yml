@@ -25,7 +25,7 @@ jobs:
             .
       - run: docker push ghcr.io/zaleos/docker-cache-dbg:1
   
-  build-attempt-1:
+  build-attempt-2:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
