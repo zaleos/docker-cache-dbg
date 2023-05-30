@@ -39,3 +39,7 @@ RUN groupadd -g ${GROUP_ID} devenv && useradd -m -u ${USER_ID} -g devenv devenv 
  && chown -R devenv:devenv /home/devenv Dockerfile
 
 RUN ls -la Dockerfile
+
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
