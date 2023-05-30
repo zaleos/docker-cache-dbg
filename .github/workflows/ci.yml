@@ -1,0 +1,43 @@
+name: CI
+on:
+  pull_request:
+  push:
+    branches: [develop, master]
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  build-attempt-1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker version
+      - run: |
+          DOCKER_BUILDKIT=1 docker build \
+            --progress plain \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --build-arg USER_ID=$(id -u) \
+            --build-arg GROUP_ID=$(id -g) \
+            -t ghcr.io/zaleos/docker-cache-dbg:1 \
+            --cache-from ghcr.io/zaleos/docker-cache-dbg:1 \
+            .
+      - run: docker push ghcr.io/zaleos/docker-cache-dbg:1
+  
+  build-attempt-1:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: docker version
+      - run: |
+          DOCKER_BUILDKIT=1 docker build \
+            --progress plain \
+            --build-arg BUILDKIT_INLINE_CACHE=1 \
+            --build-arg USER_ID=$(id -u) \
+            --build-arg GROUP_ID=$(id -g) \
+            -t ghcr.io/zaleos/docker-cache-dbg:1 \
+            --cache-from ghcr.io/zaleos/docker-cache-dbg:1 \
+            .
+      - run: docker push ghcr.io/zaleos/docker-cache-dbg:1
+      
