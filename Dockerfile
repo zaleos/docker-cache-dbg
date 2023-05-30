@@ -1,9 +1,11 @@
 FROM rockylinux:9
 
+# Sanity check - this should always result in a cache hit
 RUN echo "Hello world"
 
 WORKDIR /app
 
+# Replicating one of the first time-consuming steps from the real Docker image
 RUN dnf upgrade \
     --assumeyes \
     --refresh \
@@ -27,10 +29,11 @@ RUN dnf upgrade \
  && dnf clean all \
  && rm -rf /var/cache/yum
 
+# Involving some build context copying for test purposes
 COPY --chmod=0755 ./Dockerfile /app/Dockerfile
-
 RUN cat Dockerfile
 
+# Involving some build arguments
 ARG USER_ID
 ARG GROUP_ID
 RUN groupdel -f $(getent group ${GROUP_ID} | cut -d: -f1) || true
@@ -40,6 +43,7 @@ RUN groupadd -g ${GROUP_ID} devenv && useradd -m -u ${USER_ID} -g devenv devenv 
 
 RUN ls -la Dockerfile
 
+# Checking Docker platform settings
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM"
